@@ -1,0 +1,80 @@
+CREATE TABLE usuário 
+( 
+ senha INT DEFAULT '0',  
+ telefone INT,  
+ nome INT,  
+ id_usuario INT PRIMARY KEY,  
+ cep_usuário VARCHAR NOT NULL,  
+); 
+
+CREATE TABLE pedidos 
+( 
+ valor_total INT,  
+ status INT,  
+ data_do_pedido DATETIME NOT NULL,  
+ id_pedidos INT PRIMARY KEY,  
+ idusuario INT,  
+ cep_chegada_pedido VARCHAR NOT NULL,  
+ idproduto INT,  
+); 
+
+CREATE TABLE produto 
+( 
+ estoque_produto INT NOT NULL,  
+ preço_produto INT,  
+ nome_produto INT,  
+ id_produto INT PRIMARY KEY,  
+ idcategoria INT,  
+ img_produto INT NOT NULL,  
+ descrição_produto VARCHAR,  
+ idvendedor INT,  
+ cep_saida_produto VARCHAR NOT NULL,  
+ UNIQUE (descrição_produto)
+); 
+
+CREATE TABLE categoria 
+( 
+ nome_categoria INT,  
+ id_categoria INT PRIMARY KEY,  
+); 
+
+CREATE TABLE pagamento 
+( 
+ valor INT,  
+ tipo_pagamento INT,  
+ id_pagamento INT PRIMARY KEY,  
+ idpedidos INT,  
+); 
+
+CREATE TABLE vendedor 
+( 
+ id_vend INT PRIMARY KEY,  
+ nome_vendedor VARCHAR NOT NULL,  
+ cnpj_vendedor / cpf _vendedor CHAR NOT NULL,  
+ email_vendedor VARCHAR NOT NULL,  
+ teleone_vendedor VARCHAR NOT NULL,  
+ senha_vendedor VARCHAR NOT NULL,  
+ CHECK (cnpj_vendedor / cpf _vendedor BETWEEN cnpj AND cpf)
+); 
+
+CREATE TABLE loja digital 
+( 
+ idusuario INT,  
+ idpagamento INT,  
+ idpedidos INT,  
+ idproduto INT,  
+ idcategoria INT,  
+ idvendedor INT,  
+); 
+
+ALTER TABLE pedidos ADD FOREIGN KEY(idusuario) REFERENCES usuário (idusuario)
+ALTER TABLE pedidos ADD FOREIGN KEY(idproduto) REFERENCES produto (idproduto)
+ALTER TABLE produto ADD FOREIGN KEY(idcategoria) REFERENCES categoria (idcategoria)
+ALTER TABLE produto ADD FOREIGN KEY(idvendedor) REFERENCES vendedor (idvendedor)
+ALTER TABLE pagamento ADD FOREIGN KEY(idpedidos) REFERENCES pedidos (idpedidos)
+ALTER TABLE loja digital ADD FOREIGN KEY(idusuario) REFERENCES usuário (idusuario)
+ALTER TABLE loja digital ADD FOREIGN KEY(idpagamento) REFERENCES pagamento (idpagamento)
+ALTER TABLE loja digital ADD FOREIGN KEY(idpedidos) REFERENCES pedidos (idpedidos)
+ALTER TABLE loja digital ADD FOREIGN KEY(idproduto) REFERENCES produto (idproduto)
+ALTER TABLE loja digital ADD FOREIGN KEY(idcategoria) REFERENCES categoria (idcategoria)
+ALTER TABLE loja digital ADD FOREIGN KEY(idvendedor) REFERENCES vendedor (idvendedor)
